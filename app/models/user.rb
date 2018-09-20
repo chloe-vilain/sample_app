@@ -9,7 +9,7 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   #Returns a hash digest of a given string. Uses minimum costs in test to
   #improve performance and highest cost in prod for security
@@ -43,7 +43,7 @@ class User < ApplicationRecord
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
-  #Updates the remember_digest value to nil to terminate the session 
+  #Updates the remember_digest value to nil to terminate the session
   def forget
     update_attribute(:remember_digest, nil)
   end

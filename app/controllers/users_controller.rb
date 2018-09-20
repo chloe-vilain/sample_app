@@ -25,6 +25,16 @@ class UsersController < ApplicationController
     @url = user_path(@user)
   end
 
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profile updated"
+      redirect_to @user 
+    else
+      render 'edit'
+    end
+  end
+
   private
 
     def user_params
