@@ -38,15 +38,27 @@ class User < ApplicationRecord
   # checks if a remember_token string passed matches the hashed remember_digest
   # for the user.
   # Returns false if there is no remember_digest attribute for the user.
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  def authenticated?(attribute, token)
+    digest = self.send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   #Updates the remember_digest value to nil to terminate the session
   def forget
     update_attribute(:remember_digest, nil)
   end
+
+  #Activates an account
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
+
+  #Sends an activation email
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
 
   private
 
