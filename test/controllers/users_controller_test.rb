@@ -78,5 +78,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get followers_user_path(@user)
     assert_redirected_to login_url
   end
+  #remember to include these in commit message
 
 end
