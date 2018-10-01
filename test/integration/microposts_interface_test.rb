@@ -41,7 +41,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
   test "micropost sidebar count" do
     log_in_as(@user)
     get root_path
-    assert_match "#{@user.feed.count} microposts", response.body
+    assert_match "#{@user.microposts.count} microposts", response.body
     #user with zero microposts
     other_user = users(:malory)
     log_in_as(other_user)
